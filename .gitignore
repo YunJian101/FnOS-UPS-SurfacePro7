@@ -1,0 +1,18 @@
+# 编译产物
+*.ko
+*.o
+*.mod
+*.mod.c
+*.symvers
+*.order
+*.cmd
+.tmp_versions/
+
+# 下载的内核源码
+linux-*.tar.xz
+linux-*/
+
+# 临时目录
+/work/
+build/
+out/
