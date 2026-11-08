@@ -33,10 +33,32 @@ Linux 上游从 5.13 起就有对应驱动：
 
 其它基于 Debian、且 `/usr/src/linux-headers-$(uname -r)` 与 `/boot/config-$(uname -r)` 齐全的发行版理论上也能用，但没有逐一验证。
 
-## 前置条件
+## 安装
+
+### 方式一：预编译包（免编译，最快）
+
+先看内核版本：
+
+```sh
+uname -r
+```
+
+到 [Releases](https://github.com/YunJian101/FnOS-UPS-SurfacePro7/releases) 下载文件名里带这个内核版本的压缩包（例如 `FnOS-UPS-SurfacePro7-6.18.18.c1186-trim.tar.gz`），解压后直接安装：
+
+```sh
+tar -xzf FnOS-UPS-SurfacePro7-6.18.18.c1186-trim.tar.gz
+cd FnOS-UPS-SurfacePro7-6.18.18.c1186-trim
+sudo sh install.sh
+```
+
+预编译模块的 `vermagic` 必须与当前内核**完全一致**；版本对不上会报 `invalid module format`，这种情况用方式二。
+
+### 方式二：源码编译（按当前内核现编，需要 Docker）
+
+前置条件：
 
 1. 机器是 Surface Pro 7 / 7+（ACPI ID `MSHW0116` / `MSHW0119`）。
-   其它 Surface 型号可对照下表改 `surface_aggregator_registry` 的支持情况，本项目未做适配。
+   其它 Surface 型号未做适配。
 2. 系统里有 **Docker**（fnOS 自带），用来提供编译工具链。
 3. 存在这两个路径：
 
@@ -46,10 +68,6 @@ Linux 上游从 5.13 起就有对应驱动：
    ```
 
    没有的话需要先装对应内核的头文件包，本项目不负责补。
-
-## 安装
-
-以 root 在目标机器上执行：
 
 ```sh
 git clone https://github.com/YunJian101/FnOS-UPS-SurfacePro7.git
@@ -119,9 +137,10 @@ sudo reboot
 ## 目录结构
 
 ```
-install.sh                     # 一键安装（宿主侧，需 root）
+install.sh                     # 方式二：容器内编译并安装（需 Docker + 内核头文件）
+install-prebuilt.sh            # 用现成的 .ko 安装（Release 包里的 install.sh 就是它）
 uninstall.sh                   # 卸载
-scripts/build-and-install.sh   # 容器内编译安装脚本
+scripts/build-and-install.sh   # 编译安装的实际执行脚本
 docs/how-it-works.md           # 原理与排障细节
 ```
 

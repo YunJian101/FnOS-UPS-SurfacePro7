@@ -16,3 +16,6 @@ linux-*/
 /work/
 build/
 out/
+
+# 打包临时目录
+.tmp-artifacts/
